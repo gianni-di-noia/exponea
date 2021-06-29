@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"time"
 )
 
 func makeRequest(service string, method string, path string, body io.Reader) (*http.Request, error) {
@@ -17,11 +18,13 @@ func makeRequest(service string, method string, path string, body io.Reader) (*h
 
 // MyRequest makes a request to a give url
 func MyRequest(service string, method string, path string) ([]byte, int) {
-	client := &http.Client{}
+	client := &http.Client{
+		Timeout: 5 * time.Second,
+	}
 	req, _ := makeRequest(service, method, path, nil)
 	res, err := client.Do(req)
 	if err != nil {
-		log.Fatal("000", err)
+		return nil, res.StatusCode
 	}
 	log.Printf("res.StatusCode %d", res.StatusCode)
 	if res.StatusCode != 200 {

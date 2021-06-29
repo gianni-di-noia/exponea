@@ -5,6 +5,10 @@ help: # Show this help
 MSG=$(shell git show -s --format=%s)
 TAG=$(shell /bin/date "+%Y%m%d%H%M%S")
 
+init:
+	go mod init exponea.com
+	go mod tidy
+
 run: ## run
 	go run main.go
 

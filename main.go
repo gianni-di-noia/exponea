@@ -22,7 +22,10 @@ func newRouter() *echo.Echo {
 
 // e.GET("/api/first", getFirst)
 func getFirst(c echo.Context) error {
-	works, _ := controller.BuildWorks(c)
+	works, err := controller.BuildWorks(c)
+	if works == nil {
+		return err
+	}
 	return c.JSON(http.StatusOK, works[0])
 }
 

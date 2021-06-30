@@ -24,7 +24,7 @@ func MyRequest(service string, method string, path string) ([]byte, int) {
 	req, _ := makeRequest(service, method, path, nil)
 	res, err := client.Do(req)
 	if err != nil {
-		return nil, res.StatusCode
+		return nil, 500
 	}
 	log.Printf("res.StatusCode %d", res.StatusCode)
 	if res.StatusCode != 200 {
@@ -32,7 +32,7 @@ func MyRequest(service string, method string, path string) ([]byte, int) {
 	}
 	body, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		log.Fatal("001", err)
+		return nil, 500
 	}
 	defer res.Body.Close()
 	log.Printf("DATA %s", body)
